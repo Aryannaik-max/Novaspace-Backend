@@ -11,15 +11,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      file.belongsTo(models.user, { foreignKey: 'uploadedBy' });  
+      file.belongsTo(models.Workspace, { foreignKey: 'workspaceId' });
     }
   }
   file.init({
-    name: DataTypes.STRING,
-    size: DataTypes.INTEGER,
-    url: DataTypes.STRING,
-    uploadedBy: DataTypes.INTEGER,
-    workspaceId: DataTypes.INTEGER,
-    type: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    size: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    uploadedBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'user',
+          key: 'id'
+        }
+    },
+    workspaceId:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+          model: 'Workspace',
+          key: 'id'
+        }
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   }, {
     sequelize,
     modelName: 'file',

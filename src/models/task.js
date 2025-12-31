@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      task.belongsTo(models.Workspace, { foreignKey: 'workspaceId' });
+      task.belongsTo(models.user, { foreignKey: 'createdBy' });
     }
   }
   task.init({
@@ -21,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    workspaceId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Workspace',
+        key: 'id'
+      }
     },
     section: {
       type: DataTypes.ENUM,
@@ -41,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     createdBy: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: {
+        model: 'user',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

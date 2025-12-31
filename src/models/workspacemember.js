@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class WorkspaceMemeber extends Model {
+  class WorkspaceMember extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,14 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      WorkspaceMember.belongsTo(model.user, { foreignKey: 'userId' });
+      WorkspaceMember.belongsTo(models.Workspace, { foreignKey: 'workspaceId' });
     }
   }
-  WorkspaceMemeber.init({
+  WorkspaceMember.init({
     userId: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'user',
+        key: 'id'
+      }
     },
     workspaceId: {
       type: DataTypes.INTEGER,
+      references: {
+        model: 'Workspace',
+        key: 'id'
+      }
     },
     role: {
       type: DataTypes.ENUM,
@@ -28,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'WorkspaceMemeber',
+    modelName: 'WorkspaceMember',
   });
-  return WorkspaceMemeber;
+  return WorkspaceMember;
 };
