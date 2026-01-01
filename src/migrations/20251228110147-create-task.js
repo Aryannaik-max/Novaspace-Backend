@@ -23,6 +23,14 @@ module.exports = {
         defaultValue: 'todo',
         allowNull: false,
       },
+      workspaceId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Workspaces',
+          key: 'id'
+        }
+      },  
       dueDate: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -36,6 +44,10 @@ module.exports = {
       createdBy: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,

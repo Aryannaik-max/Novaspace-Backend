@@ -24,10 +24,18 @@ module.exports = {
       uploadedBy: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
       },
       workspaceId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Workspaces',
+          key: 'id'
+        }
       },
       type: {
         type: Sequelize.STRING,

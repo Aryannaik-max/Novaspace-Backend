@@ -1,5 +1,3 @@
-const { JWT_SECRET } = require('../config/serverConfig');
-const jwt = require('jsonwebtoken');
 const UserService = require('../services/user-service');
 
 const userService = new UserService();

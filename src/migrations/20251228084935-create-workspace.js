@@ -19,6 +19,16 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
+      totalMembers: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
