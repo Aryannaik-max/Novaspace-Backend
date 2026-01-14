@@ -49,9 +49,23 @@ class CrudRepository {
         }
     }
 
-    async getAll () {
+    async getAllByOwner (ownerId) {
         try {
-            const result = await this.model.findAll();
+            const result = await this.model.findAll({
+                where: { ownerId }
+            });
+            return result;
+        } catch (error) {
+            console.log("Something went wrong in the Crud Repository");
+            throw { error };
+        }
+    }
+
+    async getAll (filter = {}) {
+        try {
+            const result = await this.model.findAll({
+                where: filter
+            });
             return result;
         } catch (error) {
             console.log("Something went wrong in the Crud Repository");

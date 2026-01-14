@@ -49,7 +49,7 @@ const deleteWorkspaceMember = async (req, res) => {
 
 const getWorkspaceMembers = async (req, res) => {
     try {
-        const workspaceId = req.params.workspaceId; 
+        const workspaceId = req.params.id; 
         const members = await workspaceMemberService.getAll({ workspaceId });
         return res.status(200).json({
             data: members,  

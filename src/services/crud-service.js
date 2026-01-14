@@ -43,9 +43,9 @@ class CrudService {
         }
     }
     
-    async getAll() {
+    async getAll(filter = {}) {
         try {
-            const result = await this.repository.getAll();
+            const result = await this.repository.getAll(filter);
             return result;
         } catch (error) {
             console.log("Something went wrong in the Crud Service");

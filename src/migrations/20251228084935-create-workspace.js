@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id'
         }
       },
@@ -29,6 +29,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 1,
         allowNull: false,
+      },
+      inviteCode: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       createdAt: {
         allowNull: false,

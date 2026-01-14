@@ -32,7 +32,8 @@ const createTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const tasks = await taskService.get(req.body.workspaceId);
+        const workspaceId = req.query.workspaceId;
+        const tasks = await taskService.getAll({ workspaceId });
         return res.status(200).json({
             data: tasks,
             success: true,

@@ -35,10 +35,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 1,
       allowNull: false,
-    }
+    },
+    inviteCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    } 
   }, {
     sequelize,
     modelName: 'Workspace',
   });
+
   return Workspace;
 };

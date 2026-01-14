@@ -1,3 +1,4 @@
+const { get } = require('../routes/v1');
 const WorkspaceService = require('../services/workspace-service');
 const workspaceService = new WorkspaceService();
 
@@ -6,7 +7,8 @@ const createWorkspace = async (req, res) => {
         const workspaceData = {
             name: req.body.name,
             description: req.body.description,
-            ownerId: req.user.id
+            ownerId: req.user.id,
+            inviteCode: Math.random().toString(36).substring(2, 10).toUpperCase()
         };
         const workspace = await workspaceService.create(workspaceData);
         return res.status(201).json({
@@ -28,13 +30,13 @@ const createWorkspace = async (req, res) => {
 
 const getAllWorkspaces = async (req, res) => {
     try {
-        const workspaces = await workspaceService.get(req.user.id);
+        const workspaces = await workspaceService.getAllByOwner(req.user.id);
         return res.status(200).json({
             data: workspaces,
             success: true,
             message: 'Workspaces fetched successfully',
             err: {}
-        });
+        }); 
     } catch (error) {
         console.error('Error in getAllWorkspaces controller:', error);
         return res.status(500).json({
@@ -89,9 +91,78 @@ const updateWorkspace = async (req, res) => {
     }
 };
 
+const getWorkspaceByInviteCode = async (req, res) => {
+    try {
+        const inviteCode = req.params.inviteCode;
+        const workspace = await workspaceService.getByInviteCode(inviteCode);
+        return res.status(200).json({
+            data: workspace,
+            success: true,
+            message: 'Workspace fetched successfully',
+            err: {}
+        });
+    } catch (error) {
+        console.error('Error in getWorkspaceByInviteCode controller:', error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Failed to fetch workspace',
+            err: error
+        });
+    }
+
+};
+
+const joinbyInviteCode = async (req, res) => {
+    try {
+        const inviteCode = req.body.inviteCode;
+        const userId = req.user.id;
+        const workspace = await workspaceService.joinbyInviteCode(inviteCode, userId);
+        return res.status(200).json({
+            data: workspace,
+            success: true,
+            message: 'Joined workspace successfully',
+            err: {}
+        });
+    } catch (error) {
+        console.error('Error in joinbyInviteCode controller:', error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Failed to join workspace',
+            err: error
+        });
+    } 
+};
+
+const getWorkspaceById = async (req, res) => {
+    try {
+        const workspaceId = req.params.id;
+        const workspace = await workspaceService.getById(workspaceId);
+        return res.status(200).json({
+            data: workspace,
+            success: true,
+            message: 'Workspace fetched successfully',
+            err: {}
+        });
+    } catch (error) {
+        console.error('Error in getWorkspaceById controller:', error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Failed to fetch workspace',
+            err: error
+        });
+    }
+} 
+
+
 module.exports = {
     createWorkspace,
     getAllWorkspaces,   
     deleteWorkspace,
-    updateWorkspace
+    updateWorkspace,
+    getWorkspaceByInviteCode,
+    joinbyInviteCode,
+    getWorkspaceById
 };
