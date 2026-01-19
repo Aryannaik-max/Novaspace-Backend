@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Workspace.belongsTo(models.user, { foreignKey: 'ownerId' });
+      Workspace.belongsTo(models.user, { foreignKey: 'ownerId', as: 'Owner' });
+      Workspace.belongsToMany(models.user, { through: models.WorkspaceMember, foreignKey: 'workspaceId', as: 'Members' });
     }
   }
   Workspace.init({
@@ -27,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
+        model: 'users',
         key: 'id'
       }
     },

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      file.belongsTo(models.user, { foreignKey: 'uploadedBy' });  
+      file.belongsTo(models.user, { foreignKey: 'uploadedBy', as: 'uploader' });  
       file.belongsTo(models.Workspace, { foreignKey: 'workspaceId' });
     }
   }
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-          model: 'user',
+          model: 'users',
           key: 'id'
         }
     },
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-          model: 'Workspace',
+          model: 'Workspaces',
           key: 'id'
         }
     },

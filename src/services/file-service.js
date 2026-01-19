@@ -1,5 +1,6 @@
 const CrudService = require('./crud-service');
 const FileRepository = require('../repositories/file-repo');
+const {user} = require('../models/index');
 
 class FileService extends CrudService {
     constructor() {
@@ -12,6 +13,24 @@ class FileService extends CrudService {
             return result;
         } catch (error) {
             console.log("Something went wrong in the File Service");
+            throw { error };
+        }
+    }
+
+    async getWithCreator(workspaceId) {
+        try {
+            const files = await this.repository.getWithCreator(
+                {workspaceId: Number(workspaceId)}, [
+                    {
+                        model: user,
+                        as: 'uploader',
+                        attributes: ['id', 'name', 'email']
+                    }
+                ]
+             );
+            return files;
+        } catch {
+            console.log("Something went wrong in the File Service - getWithCreator");
             throw { error };
         }
     }

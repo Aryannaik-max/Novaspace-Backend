@@ -1,5 +1,6 @@
 const { get } = require('../routes/v1');
 const WorkspaceService = require('../services/workspace-service');
+const { WorkspaceMember } = require('../models/index');
 const workspaceService = new WorkspaceService();
 
 const createWorkspace = async (req, res) => {
@@ -11,6 +12,11 @@ const createWorkspace = async (req, res) => {
             inviteCode: Math.random().toString(36).substring(2, 10).toUpperCase()
         };
         const workspace = await workspaceService.create(workspaceData);
+        await WorkspaceMember.create({
+            userId: req.user.id,
+            workspaceId: workspace.id,
+            role: 'admin'
+        });
         return res.status(201).json({
             data: workspace,
             success: true,
@@ -51,7 +57,7 @@ const getAllWorkspaces = async (req, res) => {
 const deleteWorkspace = async (req, res) => {
     try {
         const workspaceId = req.params.id;
-        await workspaceService.delete(workspaceId, req.user.id);
+        await workspaceService.delete({ id: workspaceId });
         return res.status(200).json({
             data: {},   
             success: true,
@@ -156,6 +162,27 @@ const getWorkspaceById = async (req, res) => {
     }
 } 
 
+const getWorkspaceMembers = async (req, res) => {
+    try {
+        const workspaceId = req.params.id;
+        const members = await workspaceService.getMembers(workspaceId);
+        return res.status(200).json({
+            data: members,
+            success: true,
+            message: 'Workspace members fetched successfully',
+            err: {}
+        });
+    } catch (error) {
+        console.log('Error in getWorkspaceMembers controller:', error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Failed to fetch workspace members',
+            err: error
+        });
+    }
+}
+
 
 module.exports = {
     createWorkspace,
@@ -164,5 +191,6 @@ module.exports = {
     updateWorkspace,
     getWorkspaceByInviteCode,
     joinbyInviteCode,
-    getWorkspaceById
+    getWorkspaceById,
+    getWorkspaceMembers
 };

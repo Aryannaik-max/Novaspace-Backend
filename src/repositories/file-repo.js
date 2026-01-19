@@ -17,6 +17,19 @@ class FileRepository extends CrudRepository {
             throw { error };
         }
     }
+
+    async getWithCreator(filter, includeOptions) {
+        try {
+            const files = await this.model.findAll({
+                where: filter ,
+                include: includeOptions
+            });
+            return files;
+        } catch (error) {
+            console.error('Error in getWithCreator:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = FileRepository;

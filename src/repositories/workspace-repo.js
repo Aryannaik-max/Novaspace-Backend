@@ -1,5 +1,6 @@
 const CrudRepository = require('./crud-repo');
 const { Workspace, WorkspaceMember, user } = require('../models/index');
+const { where } = require('sequelize');
 
 class WorkspaceRepository extends CrudRepository {
     constructor() {
@@ -59,6 +60,23 @@ class WorkspaceRepository extends CrudRepository {
             throw { error };
         }
     }
+
+    async getMembersOfWorkspace(workspaceId) {
+        try {
+            const members = await WorkspaceMember.findAll({
+            where: { workspaceId },
+            include: [{
+                model: user,
+                attributes: ['id', 'name', 'email']
+            }]
+            });
+
+            return members;
+        } catch (error) {
+            console.log("Something went wrong in WorkspaceRepository.getMembersOfWorkspace");
+            throw { error };
+        }
+}
 
 }
 

@@ -64,6 +64,29 @@ class WorkspaceService extends CrudService {
             throw { error };
         }
     }
+
+    async delete(whereObj) {
+        try {
+            if (whereObj && whereObj.id) {
+                await WorkspaceMember.destroy({ where: { workspaceId: whereObj.id } });
+            }
+            const result = await this.repository.delete(whereObj);
+            return result;
+        } catch (error) {
+            console.log("Something went wrong in the Workspace Service");
+            throw { error };
+        }
+    }
+
+    async getMembers(workspaceId) {
+        try {
+            const members = await this.repository.getMembersOfWorkspace(workspaceId);
+            return members;
+        } catch (error) {
+            console.log("Something went wrong in the Workspace Service");
+            throw { error };
+        }
+    }
 }
 
 module.exports = WorkspaceService;

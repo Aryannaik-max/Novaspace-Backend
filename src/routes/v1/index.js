@@ -13,9 +13,11 @@ const upload = require('../../middlewares/upload-middleware');
 router.post('/signup', UserController.createUser);
 router.post('/signin', UserController.signInUser);
 router.get('/profile', authMiddleware, UserController.getUserProfile);
+router.post('/users/batch', authMiddleware, UserController.getAllUsers);
 
 // Liveblocks auth route
-router.post('/auth/liveblocks', authMiddleware, LiveblocksController.authenticate);
+router.post('/auth/liveblocks',authMiddleware, LiveblocksController.authenticate);
+// router.post('/users', LiveblocksController.getUsers);
 
 // Workspace routes
 router.post('/workspaces', authMiddleware, WorkspaceController.createWorkspace);
@@ -24,6 +26,7 @@ router.get('/workspaces/:id', authMiddleware, WorkspaceController.getWorkspaceBy
 router.delete('/workspaces/:id', authMiddleware, WorkspaceController.deleteWorkspace);
 router.get('/workspaces/invite/:inviteCode', authMiddleware, WorkspaceController.getWorkspaceByInviteCode);
 router.post('/workspaces/join', authMiddleware, WorkspaceController.joinbyInviteCode);
+router.get('/workspaces/:id/members', authMiddleware, WorkspaceController.getWorkspaceMembers);
 
 // Workspace Member routes
 router.post('/workspaces/:id/members', authMiddleware, WorkspaceMemberController.createWorkspaceMember);
@@ -39,6 +42,7 @@ router.put('/tasks/:id', authMiddleware, TaskController.updateTask);
 router.post('/files', authMiddleware, upload.single('file'), FileController.uploadFile);
 router.get('/files/:workspaceId', authMiddleware, FileController.getFilesByWorkspace);
 router.delete('/files/:id', authMiddleware, FileController.deleteFile);
+
 
 
 

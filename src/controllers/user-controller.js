@@ -111,10 +111,43 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const { userIds } = req.body;
+        
+        if (!userIds || !Array.isArray(userIds)) {
+            return res.status(400).json({
+                data: {},
+                success: false,
+                message: 'userIds must be an array',
+                err: {}
+            });
+        }
+        
+        const users = await userService.getByIds(userIds);
+        const formattedUsers = users.map(user => ({
+            name: user.name,
+            avatar: user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || 'User')}&background=random`
+        }));
+        
+        // Return the formatted array directly (not wrapped in data/success)
+        return res.status(200).json(formattedUsers);
+        
+    } catch (error) {
+        console.error('Error in getAllUsers controller:', error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            message: 'Failed to fetch users',
+            err: error
+        });
+    }
+};
 module.exports = {
     createUser,
     signInUser,
     getUserProfile,
     updateUserProfile,
-    deleteUser
+    deleteUser,
+    getAllUsers
 };

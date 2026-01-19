@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       task.belongsTo(models.Workspace, { foreignKey: 'workspaceId' });
-      task.belongsTo(models.user, { foreignKey: 'createdBy' });
+      task.belongsTo(models.user, { foreignKey: 'createdBy', as: 'creator' });
     }
   }
   task.init({
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Workspace',
+        model: 'Workspaces',
         key: 'id'
       }
     },
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'user',
+        model: 'users',
         key: 'id'
       }
     }

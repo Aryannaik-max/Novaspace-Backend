@@ -24,7 +24,7 @@ const uploadFile = async (req, res) => {
             size: req.file.size,
             url: fileUrl,
             uploadedBy: uploadedBy,
-            workspaceId: workspaceId,
+            workspaceId: Number(workspaceId),
             type: req.file.mimetype
         };
 
@@ -47,8 +47,8 @@ const uploadFile = async (req, res) => {
 
 const getFilesByWorkspace = async (req, res) => {
     try {
-        const { workspaceId } = req.params;
-        const files = await fileService.getByWorkspace(workspaceId);
+        const workspaceId  = req.params.workspaceId;
+        const files = await fileService.getWithCreator(workspaceId);
 
         return res.status(200).json({
             success: true,

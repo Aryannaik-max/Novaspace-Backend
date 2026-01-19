@@ -3,6 +3,7 @@ const UserRepository = require('../repositories/user-repo');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/serverConfig');
+const { Op } = require('sequelize');
 
 class UserService extends CrudService {
     constructor() {
@@ -63,6 +64,23 @@ class UserService extends CrudService {
             throw { error: 'Invalid token' };
         }
     }
+
+    async getByIds(userIds) {
+        try {
+            const users = await this.repository.getAll({
+                id: {
+                        [Op.in]: userIds
+                    }
+                    });
+                return users;
+        } catch (error) {
+            console.log("Something went wrong in UserService getByIds");
+            throw error;
+        }
+    }
+
+
+
 
 }
 
