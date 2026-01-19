@@ -6,7 +6,15 @@ const apiRoutes = require('./routes/index');
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://novaspace-a7he.vercel.app/"
+    ],
+    credentials: true
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
