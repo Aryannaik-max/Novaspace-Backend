@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": { "env": "MYSQL_PASSWORD" },
+    "password": null,
     "database": "novaspace_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
@@ -16,11 +16,7 @@
   },
 
   "production": {
-    "username": { "env": "MYSQLUSER" },
-    "password": { "env": "MYSQLPASSWORD" },
-    "database": { "env": "MYSQLDATABASE" },
-    "host": { "env": "MYSQLHOST" },
-    "port": { "env": "MYSQLPORT" },
+    "use_env_variable": "MYSQL_URL",
     "dialect": "mysql"
   }
 }
