@@ -1,2 +1,4 @@
+# Environment variables for local development
+.env
 node_modules
 .env
