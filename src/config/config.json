@@ -16,7 +16,17 @@
   },
 
   "production": {
-    "use_env_variable": "MYSQL_URL",
-    "dialect": "mysql"
+  "username": "root",
+  "password": "${MYSQL_PASSWORD}",
+  "database": "${MYSQL_DATABASE}",
+  "host": "${MYSQL_HOST}",
+  "port": "${MYSQL_PORT}",
+  "dialect": "mysql",
+  "dialectOptions": {
+    "ssl": {
+      "require": true,
+      "rejectUnauthorized": false
+    }
   }
+}
 }

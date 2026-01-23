@@ -9,8 +9,9 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://novaspace-seven.vercel.app"
-  ],
+    "https://novaspace-seven.vercel.app",
+    process.env.RAILWAY_STATIC_URL ? `https://${process.env.RAILWAY_STATIC_URL}` : null
+  ].filter(Boolean),
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true

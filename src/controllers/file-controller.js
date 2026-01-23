@@ -1,5 +1,6 @@
 const FileService = require('../services/file-service');
-const UploadToS3 = require('../utils/s3Upload');
+// CHANGE 1: Import the new Cloudinary helper
+const UploadToCloudinary = require('../utils/UploadToCloudinay'); 
 
 const fileService = new FileService();
 
@@ -15,14 +16,15 @@ const uploadFile = async (req, res) => {
         const { workspaceId } = req.body;
         const uploadedBy = req.user.id;
 
-        // Upload to S3
-        const fileUrl = await UploadToS3(req.file);
+        // CHANGE 2: Call the Cloudinary function instead of S3
+        // This returns the secure Cloudinary URL (e.g., https://res.cloudinary.com/...)
+        const fileUrl = await UploadToCloudinary(req.file);
 
         // Save file info to database
         const fileData = {
             name: req.file.originalname,
             size: req.file.size,
-            url: fileUrl,
+            url: fileUrl, // <--- This now stores the Cloudinary URL
             uploadedBy: uploadedBy,
             workspaceId: Number(workspaceId),
             type: req.file.mimetype
