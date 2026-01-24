@@ -35,7 +35,7 @@ module.exports = {
         references: {
           model: 'workspaces',
           key: 'id'
-        }
+        },
       },
       type: {
         type: Sequelize.STRING,

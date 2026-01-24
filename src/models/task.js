@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'workspaces',
         key: 'id'
-      }
+      },
     },
     section: {
       type: DataTypes.ENUM,

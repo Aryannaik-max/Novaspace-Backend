@@ -1,6 +1,6 @@
 const CrudService = require('./crud-service');
 const WorkspaceRepository = require('../repositories/workspace-repo');
-const { WorkspaceMember } = require('../models');
+const { WorkspaceMember, task, file } = require('../models');
 
 class WorkspaceService extends CrudService {
     constructor() {
@@ -9,7 +9,6 @@ class WorkspaceService extends CrudService {
 
     async getAllByOwner(ownerId) {
         try {
-            // Now returns all workspaces (owned + member) with roles
             const workspaces = await this.repository.getAllWorkspacesForUser(ownerId);
             return workspaces;
         } catch (error) {
@@ -46,7 +45,7 @@ class WorkspaceService extends CrudService {
             await WorkspaceMember.create({
                 workspaceId: workspace.id,
                 userId: userId,
-                role: 'member' // Default role
+                role: 'member' 
             });
             return workspace;
         } catch (error) {
@@ -68,8 +67,13 @@ class WorkspaceService extends CrudService {
     async delete(whereObj) {
         try {
             if (whereObj && whereObj.id) {
+                await task.destroy({ where: { workspaceId: whereObj.id } });
+                
+                await file.destroy({ where: { workspaceId: whereObj.id } });
+                
                 await WorkspaceMember.destroy({ where: { workspaceId: whereObj.id } });
             }
+            
             const result = await this.repository.delete(whereObj);
             return result;
         } catch (error) {

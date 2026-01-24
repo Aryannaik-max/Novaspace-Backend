@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       references: {
           model: 'workspaces',
           key: 'id'
-        }
+        },
     },
     type: {
       type: DataTypes.STRING,

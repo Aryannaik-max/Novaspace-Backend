@@ -29,7 +29,7 @@ module.exports = {
         references: {
           model: 'workspaces',
           key: 'id'
-        }
+        },
       },  
       dueDate: {
         type: Sequelize.DATE,
