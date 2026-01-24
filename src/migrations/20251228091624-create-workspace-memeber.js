@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('WorkspaceMembers', {
+    await queryInterface.createTable('workspacemembers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Workspaces',
+          model: 'workspaces',  // ← Changed from 'Workspaces' to 'workspaces'
           key: 'id'
         }
       },
@@ -42,6 +42,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('WorkspaceMembers');
+    await queryInterface.dropTable('workspacemembers');  // ← Changed from 'WorkspaceMembers' to 'workspacemembers'
   }
 };

@@ -19,14 +19,14 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
+        model: 'users',  // ← Changed from 'user' to 'users' (table name)
         key: 'id'
       }
     },
     workspaceId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Workspace',
+        model: 'workspaces',  // ← Changed from 'Workspace' to 'workspaces' (table name)
         key: 'id'
       }
     },
@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'WorkspaceMember',
+    tableName: 'workspacemembers',  // ← ADD THIS - check Railway to see what the actual table name is
   });
   return WorkspaceMember;
 };
