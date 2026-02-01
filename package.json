@@ -1,4 +1,17 @@
 {
+  "name": "novaspace-backend",
+  "version": "1.0.0",
+  "description": "NovaSpace Backend API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.958.0",
     "@liveblocks/node": "^3.12.1",
@@ -10,21 +23,13 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
-    "mysql": "^2.18.1",
     "mysql2": "^3.16.0",
-    "nodemon": "^3.1.11",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3"
   },
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js",
-    "dev": "nodemon src/index.js"
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   },
   "author": "",
-  "license": "ISC",
-  "description": ""
+  "license": "ISC"
 }

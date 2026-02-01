@@ -1,6 +1,7 @@
 const CrudService = require('./crud-service');
 const WorkspaceRepository = require('../repositories/workspace-repo');
 const { WorkspaceMember, task, file } = require('../models');
+const { user } = require('../models/index');    
 
 class WorkspaceService extends CrudService {
     constructor() {
@@ -19,7 +20,13 @@ class WorkspaceService extends CrudService {
 
     async getByInviteCode(inviteCode) {
         try {
-            const workspace = await this.repository.getWorkspaceByInviteCode(inviteCode);
+            const workspace = await this.repository.getWorkspaceByInviteCode(inviteCode, 
+                [{
+                    model: user,
+                    as: 'Owner',
+                    attributes: ['id', 'name', 'email']
+                }]
+            );
             return workspace;
         } catch (error) {
             console.log("Something went wrong in the Workspace Service");
